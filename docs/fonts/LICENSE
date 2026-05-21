@@ -1,0 +1,29 @@
+Self-hosted web fonts — license note
+=====================================
+
+All fonts in this folder are open-licensed under the SIL Open Font License 1.1
+(OFL-1.1), which permits embedding, self-hosting, and redistribution. No
+proprietary fonts are used. No external/CDN font requests are made at runtime —
+every face below is served from this repository's own GitHub Pages origin.
+
+Files & sources
+---------------
+fraunces.woff2, fraunces-italic.woff2
+  Fraunces (variable, weight axis) — Undercase Type / Phaedra Charles & Flavia Zimbardi
+  SIL Open Font License 1.1
+  https://github.com/undercasetype/Fraunces
+
+jetbrains-mono-400.woff2, jetbrains-mono-700.woff2
+  JetBrains Mono — JetBrains s.r.o.
+  SIL Open Font License 1.1
+  https://github.com/JetBrains/JetBrainsMono
+
+ibm-plex-sans-thai-400.woff2, ibm-plex-sans-thai-600.woff2
+  IBM Plex Sans Thai — IBM / Bold Monday
+  SIL Open Font License 1.1
+  https://github.com/IBM/plex
+
+woff2 binaries were retrieved from the Fontsource distribution
+(https://fontsource.org), which redistributes the upstream OFL fonts unmodified.
+
+Full OFL-1.1 text: https://openfontlicense.org

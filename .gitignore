@@ -1,0 +1,10 @@
+# Internal drafts, scratch, OS cruft — never published
+_*
+*.bak
+*.bak.html
+.DS_Store
+
+# Deferred surfaces — re-added in a later commit.
+ig-carousel/
+docs/demo.mp4
+docs/demo-poster.png

@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thai Coach for AI World — โค้ชภาษาไทยสำหรับโลก AI</title>
+<meta name="description" content="An AI coach for Thai professionals learning AI/IT topics. Refuses to dispense curricula — it coaches the diagnostic move instead. ~40× fewer tokens, by design. Bilingual (Thai + English), folder-based, MIT-licensed.">
+
+<meta property="og:title" content="Thai Coach for AI World">
+<meta property="og:description" content="AI coach for Thai professionals learning AI/IT — refuses curricula, coaches the diagnostic move instead. ~40× fewer tokens by design. Bilingual Thai + English.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nftyoginis.github.io/thai-coach-for-ai-world/">
+<meta property="og:image" content="https://nftyoginis.github.io/thai-coach-for-ai-world/og-image.png">
+<!-- og-image.png delivered by design worker, Dispatch 1 -->
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Thai Coach for AI World">
+<meta name="twitter:description" content="AI coach for Thai professionals learning AI/IT — refuses curricula, coaches the diagnostic move instead. ~40× fewer tokens by design. Bilingual Thai + English.">
+<meta name="twitter:image" content="https://nftyoginis.github.io/thai-coach-for-ai-world/og-image.png">
+
+<script>document.documentElement.className += ' js';</script>
+
+<style>
+  /* ── Self-hosted fonts (OFL-1.1, served from this origin; see fonts/LICENSE) ── */
+  @font-face { font-family:'Fraunces'; src:url('./fonts/fraunces.woff2') format('woff2'); font-weight:100 900; font-style:normal; font-display:swap; }
+  @font-face { font-family:'Fraunces'; src:url('./fonts/fraunces-italic.woff2') format('woff2'); font-weight:100 900; font-style:italic; font-display:swap; }
+  @font-face { font-family:'JetBrains Mono'; src:url('./fonts/jetbrains-mono-400.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+  @font-face { font-family:'JetBrains Mono'; src:url('./fonts/jetbrains-mono-700.woff2') format('woff2'); font-weight:700; font-style:normal; font-display:swap; }
+  @font-face { font-family:'IBM Plex Sans Thai'; src:url('./fonts/ibm-plex-sans-thai-400.woff2') format('woff2'); font-weight:400; font-style:normal; font-display:swap; }
+  @font-face { font-family:'IBM Plex Sans Thai'; src:url('./fonts/ibm-plex-sans-thai-600.woff2') format('woff2'); font-weight:600; font-style:normal; font-display:swap; }
+
+  :root {
+    /* 11-token foundation */
+    --paper:      #f4efe4;
+    --paper-deep: #ede6d6;
+    --ink:        #1c1a17;
+    --muted:      #5c554a;
+    --rule:       #cdc4b1;
+    --accent:     #c8265c;
+    --accent-bg:  #f6dfe6;
+    --serif:      'Fraunces', 'Iowan Old Style', 'Charter', Georgia, serif;
+    --sans:       -apple-system, 'Segoe UI', system-ui, sans-serif;
+    --mono:       'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+    --thai:       'IBM Plex Sans Thai', 'Sukhumvit Set', 'Noto Sans Thai', system-ui, sans-serif;
+    /* depth tints/shades — same notebook identity, no new hue */
+    --paper-2:    #efe8d8;
+    --paper-3:    #e7ddc8;
+    --ink-2:      #38332b;
+    --accent-deep:#a01646;
+    --grid:       rgba(28,26,23,0.045);
+    --grid-strong:rgba(28,26,23,0.08);
+    --shadow:     rgba(28,26,23,0.10);
+    --shadow-lg:  rgba(28,26,23,0.16);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px; line-height: 1.65;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+  }
+  /* Notebook paper grid + soft vignette, fixed behind content */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 30px 30px;
+    -webkit-mask-image: radial-gradient(120% 90% at 50% 18%, #000 55%, transparent 100%);
+            mask-image: radial-gradient(120% 90% at 50% 18%, #000 55%, transparent 100%);
+  }
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(120% 80% at 50% -10%, rgba(255,255,255,.55), transparent 60%);
+  }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(200,38,92,.32); }
+  a:hover { border-bottom-color: var(--accent); }
+  code, .mono { font-family: var(--mono); font-size: 0.92em; }
+  .thai { font-family: var(--thai); overflow-wrap: anywhere; word-break: break-word; line-break: loose; }
+  .muted { color: var(--muted); }
+
+  .skip { position: absolute; left: -9999px; top: 0; z-index: 50; background: var(--ink); color: var(--paper); padding: .7rem 1rem; font-family: var(--mono); font-size: .8rem; }
+  .skip:focus { left: 1rem; top: 1rem; }
+
+  /* ── Layout shell ── */
+  main { position: relative; z-index: 1; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 2.4rem; }
+  @media (max-width: 640px){ .wrap { padding: 0 1.3rem; } }
+
+  section { padding: 5.5rem 0; position: relative; }
+  section + section { border-top: 1px solid var(--rule); }
+  .band { background: var(--paper-2); }
+  .band-deep { background: var(--paper-3); }
+
+  /* Section marker (notebook ledger) */
+  .marker {
+    font-family: var(--mono); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 1.1rem; display: flex; align-items: center; gap: .7rem;
+  }
+  .marker::before { content: ""; width: 1.7rem; height: 1px; background: var(--accent); display: inline-block; }
+
+  h2 { font-family: var(--serif); font-weight: 460; font-size: clamp(1.6rem, 3.6vw, 2.5rem); line-height: 1.12; letter-spacing: -.012em; margin: 0 0 1.2rem; }
+  h2 em { font-style: italic; color: var(--accent-deep); }
+  h2 .thai { display: block; font-size: .62em; color: var(--muted); font-weight: 400; margin-top: .5rem; }
+  h3 { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.2rem; margin: 0 0 .5rem; }
+  p { margin: .85rem 0; }
+  .lede { font-size: clamp(1.06rem, 2vw, 1.28rem); line-height: 1.5; }
+  .lede .thai { display:block; color: var(--muted); font-size: .82em; margin-top: .7rem; }
+
+  /* ── Reveal system (progressive enhancement — only hides under html.js) ── */
+  html.js .r {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .75s cubic-bezier(.2,.7,.2,1), transform .75s cubic-bezier(.2,.7,.2,1);
+    transition-delay: calc(var(--i, 0) * 95ms);
+    will-change: opacity, transform;
+  }
+  html.js .r[data-reveal="left"]  { transform: translateX(-36px); }
+  html.js .r[data-reveal="right"] { transform: translateX(36px); }
+  html.js .r[data-reveal="scale"] { transform: scale(.93); }
+  html.js .r.in { opacity: 1; transform: none; }
+
+  /* ── HERO ── */
+  .hero { padding-top: 4.5rem; padding-bottom: 2.5rem; }
+  .kicker { font-family: var(--mono); font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 0 0 1.4rem; }
+  h1 { overflow-wrap: break-word; font-family: var(--serif); font-weight: 420; font-size: clamp(2.3rem, 6vw, 4rem); line-height: 1.04; letter-spacing: -.02em; margin: 0; }
+  h1 .thai { display: block; font-size: .42em; font-weight: 400; color: var(--muted); margin-top: .6rem; letter-spacing: 0; }
+  .hero .lede { margin-top: 1.6rem; max-width: 40ch; }
+
+  /* ── SIGNATURE moat moment ── */
+  .sig { padding: 6.5rem 0 6rem; text-align: center; overflow: hidden; }
+  .sig .sig-label { font-family: var(--mono); font-size: .74rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin: 0 0 1.8rem; }
+  .sig .lead { font-family: var(--serif); font-style: italic; color: var(--muted); font-size: clamp(1.05rem, 2.4vw, 1.5rem); margin: 0 0 .4rem; }
+  .sig .sig-cold { position: relative; display: inline-block; font-family: var(--mono); font-size: clamp(1.4rem, 4.4vw, 2.6rem); color: var(--ink-2); }
+  .sig .sig-cold::after { content: ""; position: absolute; left: -2%; top: 52%; height: 3px; width: 104%; background: var(--accent); transform-origin: left center; }
+  html.js .sig .sig-cold::after { transform: scaleX(0); transition: transform .55s cubic-bezier(.6,0,.3,1) .55s; }
+  html.js .sig.in .sig-cold::after { transform: scaleX(1); }
+  .sig .arrow { display: block; color: var(--rule); font-family: var(--mono); font-size: 1.6rem; margin: .6rem 0 .2rem; }
+  .sig .reg { font-family: var(--thai); font-weight: 600; font-size: clamp(3.4rem, 16vw, 9rem); line-height: .98; color: var(--accent); letter-spacing: -.01em; display: block; }
+  html.js .sig .reg { opacity: 0; transform: scale(.78); transition: opacity .8s ease .35s, transform 1s cubic-bezier(.18,.8,.22,1) .35s; }
+  html.js .sig.in .reg { opacity: 1; transform: none; }
+  .sig .gloss { font-family: var(--serif); font-style: italic; color: var(--muted); font-size: clamp(.95rem, 2vw, 1.2rem); margin: 1rem auto 0; max-width: 42ch; }
+  /* signature: verified learner prompt */
+  .sig .sig-prompt { display: inline-block; text-align: left; background: var(--paper); border: 1px solid var(--rule); border-left: 3px solid var(--ink); padding: .8rem 1.1rem; margin: 0 auto 2rem; max-width: 92%; box-shadow: 0 1px 0 var(--shadow); }
+  .sig .sig-prompt .who { display: block; font-family: var(--mono); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; }
+  .sig .sig-prompt .q { font-family: var(--thai); font-size: clamp(1rem, 2.6vw, 1.25rem); color: var(--ink); }
+  .sig .sig-prompt .gl { display: block; font-family: var(--serif); font-style: italic; font-size: .85rem; color: var(--muted); margin-top: .35rem; }
+  /* signature: the move, as English serif hero */
+  .sig .reg-en { font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(2.8rem, 12vw, 7rem); line-height: .98; color: var(--accent); letter-spacing: -.02em; display: block; }
+  html.js .sig .reg-en { opacity: 0; transform: scale(.78); transition: opacity .8s ease .35s, transform 1s cubic-bezier(.18,.8,.22,1) .35s; }
+  html.js .sig.in .reg-en { opacity: 1; transform: none; }
+  .sig .sig-line { max-width: 52ch; margin: 1.8rem auto 0; color: var(--ink-2); font-size: 1.04rem; line-height: 1.5; }
+  .sig .sig-line strong { color: var(--accent-deep); font-weight: 560; }
+  .sig .sig-line em { font-style: italic; color: var(--muted); }
+
+  /* ── The problem (staged statements) ── */
+  .stack-lines p { font-size: clamp(1.1rem, 2.6vw, 1.55rem); line-height: 1.4; font-family: var(--serif); margin: 1.1rem 0; max-width: 30ch; }
+  .stack-lines p.dim { color: var(--muted); }
+  .stack-lines p strong { color: var(--accent-deep); font-weight: 560; }
+
+  /* ── Interactive cold-vs-build toggle ── */
+  .toggle-demo { position: relative; margin-top: 1.6rem; }
+  .toggle-demo > input { position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; }
+  .prompt-bar { background: var(--paper); border: 1px solid var(--rule); border-left: 3px solid var(--ink); padding: .9rem 1.1rem; font-family: var(--thai); font-size: 1.02rem; box-shadow: 0 1px 0 var(--shadow); }
+  .prompt-bar .who { display: block; font-family: var(--mono); font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; }
+  .prompt-bar .meta { display: block; font-family: var(--serif); font-style: italic; font-size: .85rem; color: var(--muted); margin-top: .5rem; }
+  .seg { display: inline-flex; margin: 1.3rem 0 1rem; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; background: var(--paper); box-shadow: 0 1px 2px var(--shadow); }
+  .seg label { font-family: var(--mono); font-size: .73rem; letter-spacing: .1em; text-transform: uppercase; padding: .62rem 1.2rem; cursor: pointer; color: var(--muted); transition: background .25s, color .25s; user-select: none; }
+  .seg label + label { border-left: 1px solid var(--rule); }
+  .seg label:hover { color: var(--ink); }
+  #t-cold:checked ~ .seg label[for="t-cold"],
+  #t-build:checked ~ .seg label[for="t-build"] { background: var(--accent); color: #fff; }
+  #t-cold:focus-visible ~ .seg label[for="t-cold"],
+  #t-build:focus-visible ~ .seg label[for="t-build"] { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
+  .panels { display: grid; }
+  .panels > .panel { grid-column: 1; grid-row: 1; }
+  .panel { border: 1px solid var(--rule); padding: 1.3rem 1.4rem; background: var(--paper); opacity: 0; visibility: hidden; transition: opacity .35s ease; box-shadow: 0 6px 22px -16px var(--shadow-lg); }
+  .panel.panel-build { border-color: var(--accent); background: var(--accent-bg); }
+  #t-cold:checked ~ .panels .panel-cold,
+  #t-build:checked ~ .panels .panel-build { opacity: 1; visibility: visible; }
+  .panel .ptag { display: block; font-family: var(--mono); font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .7rem; }
+  .panel.panel-build .ptag { color: var(--accent); }
+  .panel .resp { margin: .5rem 0; line-height: 1.55; }
+  .panel .resp.thai { font-family: var(--thai); }
+  .panel .latin { font-family: var(--mono); font-size: .86em; color: var(--muted); }
+  .panel .reg-term { color: var(--accent); font-weight: 600; }
+  .compare-note { font-size: .92rem; font-style: italic; color: var(--muted); margin-top: 1rem; }
+
+  /* ── Token economics ── */
+  .bignum { font-family: var(--serif); font-weight: 500; font-size: clamp(4.5rem, 18vw, 11rem); line-height: .9; color: var(--accent); letter-spacing: -.03em; }
+  .bignum .x { font-size: .42em; color: var(--ink); vertical-align: .35em; margin-left: .05em; }
+  .econ-head { font-size: clamp(1.15rem, 2.4vw, 1.5rem); max-width: 30ch; }
+  .econ-frame { font-family: var(--serif); font-style: italic; color: var(--accent-deep); font-size: 1.1rem; margin: 1.2rem 0 0; }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 2.4rem; }
+  .stat { background: var(--paper); padding: 1.3rem 1.2rem; }
+  .stat .n { font-family: var(--serif); font-weight: 500; font-size: 2.1rem; color: var(--accent); line-height: 1; }
+  .stat .lab { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: .5rem 0 .4rem; }
+  .stat .det { font-size: .9rem; line-height: 1.45; }
+  @media (max-width: 640px){ .stats { grid-template-columns: 1fr; } }
+
+  /* ── 8-pattern architecture ledger ── */
+  .ledger { counter-reset: led; margin-top: 1rem; }
+  .led-row { display: grid; grid-template-columns: 3.2rem 1fr; gap: 1.1rem; align-items: baseline; padding: 1.15rem 0; border-top: 1px solid var(--rule); }
+  .led-row:last-child { border-bottom: 1px solid var(--rule); }
+  .led-row .num { counter-increment: led; font-family: var(--mono); font-size: .9rem; color: var(--accent); }
+  .led-row .num::before { content: counter(led, decimal-leading-zero); }
+  .led-row h3 { font-style: normal; font-size: 1.12rem; font-weight: 520; margin: 0 0 .2rem; }
+  .led-row .d { color: var(--muted); font-size: .96rem; line-height: 1.5; }
+  .led-row .d code { color: var(--ink-2); }
+
+  /* ── Claims + caveat ── */
+  ul.claims { list-style: none; padding: 0; margin: 1rem 0 0; }
+  ul.claims li { padding: .9rem 0 .9rem 2rem; border-top: 1px solid var(--rule); position: relative; }
+  ul.claims li::before { content: "→"; position: absolute; left: 0; top: .9rem; color: var(--accent); font-family: var(--mono); }
+  ul.claims li strong { font-weight: 540; }
+  .caveat { background: var(--accent-bg); border: 1px solid var(--accent); padding: 1.4rem 1.5rem; margin-top: 2rem; box-shadow: 0 10px 30px -20px var(--accent-deep); }
+  .caveat .label { display: block; font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: .5rem; }
+
+  /* ── Who / pairs ── */
+  .pair { margin: 1rem 0; }
+  .pair .en { display: block; }
+  .pair .th { display: block; color: var(--muted); font-family: var(--thai); font-size: .96rem; margin-top: .4rem; padding-left: .9rem; border-left: 2px solid var(--rule); }
+
+  /* ── Limits table ── */
+  table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: .96rem; }
+  th, td { text-align: left; padding: .65rem .7rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: var(--mono); font-size: .7rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 500; border-bottom: 1px solid var(--ink); }
+
+  /* ── Demo video slot ── */
+  .video-frame { position: relative; aspect-ratio: 16 / 9; background: var(--paper-3); border: 1px solid var(--rule); overflow: hidden; box-shadow: 0 18px 48px -28px var(--shadow-lg); margin-top: 1rem; }
+  .video-frame .demo-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; background: var(--paper-3); }
+  .video-frame .poster { position: absolute; inset: 0; padding: 1.2rem 1.4rem; display: flex; flex-direction: column; gap: .8rem; }
+  .video-frame .poster-chrome { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--rule); padding-bottom: .5rem; }
+  .video-frame .pt { font-family: var(--thai); font-size: .94rem; color: var(--ink); opacity: .5; max-width: 78%; }
+  .video-frame .pt span { font-family: var(--mono); font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); margin-right: .45rem; }
+  .video-frame .pt.coach { align-self: flex-end; text-align: right; }
+  .video-frame .pt b { color: var(--accent); }
+  .video-frame .play { position: absolute; inset: 0; margin: auto; width: 72px; height: 72px; border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(244,239,228,.8); }
+  .video-frame .tri { width: 0; height: 0; border-style: solid; border-width: 10px 0 10px 17px; border-color: transparent transparent transparent var(--accent); margin-left: 4px; }
+  .video-frame .badge { position: absolute; bottom: .9rem; left: .9rem; font-family: var(--mono); font-size: .7rem; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); background: var(--paper); border: 1px solid var(--accent); padding: .32rem .62rem; }
+  .video-cap { font-size: .88rem; font-style: italic; color: var(--muted); margin-top: .8rem; }
+
+  /* ── Steps ── */
+  .steps { counter-reset: stp; display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-top: 1rem; }
+  .step { background: var(--paper); padding: 1.2rem 1.3rem; display: grid; grid-template-columns: 2.6rem 1fr; gap: 1rem; align-items: baseline; }
+  .step .sn { counter-increment: stp; font-family: var(--mono); color: var(--accent); font-size: .95rem; }
+  .step .sn::before { content: counter(stp); }
+  .step .st { line-height: 1.5; }
+  .step code { color: var(--ink-2); }
+
+  /* ── Folder map + footer ── */
+  .filetree { font-family: var(--mono); font-size: .82rem; line-height: 1.7; background: var(--paper); border: 1px solid var(--rule); padding: 1rem 1.3rem; margin-top: 1rem; overflow-x: auto; }
+  .filetree a { border-bottom: 0; }
+  .filetree .c { color: var(--muted); font-style: italic; }
+  footer { padding: 3rem 0 4rem; font-family: var(--mono); font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  footer p { margin: .4rem 0; }
+  footer a { color: var(--muted); border-bottom-color: var(--rule); }
+  footer a:hover { color: var(--accent); }
+
+  .repo-line { font-family: var(--mono); font-size: 1rem; margin-top: 1.4rem; }
+
+  /* ── Reduced motion: everything visible, no animation ── */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    html.js .r { opacity: 1 !important; transform: none !important; transition: none !important; }
+    html.js .sig .reg { opacity: 1 !important; transform: none !important; transition: none !important; }
+    html.js .sig .reg-en { opacity: 1 !important; transform: none !important; transition: none !important; }
+    html.js .sig .sig-cold::after { transition: none !important; transform: scaleX(1) !important; }
+    .panel { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<main id="main">
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="kicker r">Folder-based AI specialist · MIT-licensed · Skool W5 portfolio entry</p>
+      <h1 class="r" data-reveal="up" style="--i:1">
+        Thai Coach for AI World
+        <span class="thai" lang="th">โค้ชภาษาไทยสำหรับโลก AI</span>
+      </h1>
+      <p class="lede r" data-reveal="up" style="--i:2">
+        An AI coach for Thai professionals learning AI/IT topics. It refuses to dispense curricula and refuses to hand fixes — it coaches the diagnostic move instead. Bilingual: it talks shop the way Thai professionals actually do.
+        <span class="thai" lang="th">โค้ช AI สำหรับคนทำงานชาวไทยที่กำลังเรียน AI/IT ปฏิเสธการบอกหลักสูตร ปฏิเสธการส่งคำตอบโดยไม่ผ่านการวินิจฉัย แล้วโค้ชให้คิดเองแทน พูดสองภาษาแบบที่คนทำงานใช้จริง</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ══ SIGNATURE — the discipline chasm ══ -->
+  <section class="band-deep">
+    <div class="wrap sig">
+      <p class="sig-label">The moat, in one move</p>
+      <div class="sig-prompt">
+        <span class="who">Learner asks</span>
+        <span class="q thai" lang="th">อยากเรียน Machine Learning เริ่มยังไงครับ</span>
+        <span class="gl">“How do I start learning machine learning?”</span>
+      </div>
+      <p class="lead">cold-Claude answers with</p>
+      <span class="sig-cold">1,500 words</span>
+      <span class="arrow">↓</span>
+      <span class="reg-en">one question.</span>
+      <p class="gloss">The coach refuses the curriculum, names the rule out loud, and asks about your actual work instead.</p>
+      <p class="sig-line"><strong>Same question.</strong> cold-Claude: 1,500 words. This coach: refuses, asks one. <em>~40× fewer tokens — by design.</em></p>
+    </div>
+  </section>
+
+  <!-- ══ 01 THE PROBLEM ══ -->
+  <section>
+    <div class="wrap">
+      <p class="marker r">01 — The problem</p>
+      <h2 class="r" data-reveal="up">Why cold Claude doesn't help you <em>learn</em><span class="thai" lang="th">ทำไม Claude ตั้งต้นถึงไม่ช่วยให้คุณ “เรียน”</span></h2>
+      <div class="stack-lines">
+        <p class="r" data-reveal="up" style="--i:1">Ask a generic assistant how to start with ML and it answers — a three-phase curriculum, a weekly schedule, eight code patterns, a tidy summary table.</p>
+        <p class="r dim" data-reveal="up" style="--i:2">It's genuinely useful. It's also the wrong shape for learning.</p>
+        <p class="r" data-reveal="up" style="--i:3">You didn't build the move. You didn't narrow the question. You collected a roadmap you won't follow and a fix you can't reproduce.</p>
+        <p class="r" data-reveal="up" style="--i:4">A coach refuses the dump and hands you the move instead. <strong>That refusal is the whole product.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 02 THE MOAT — interactive ══ -->
+  <section class="band">
+    <div class="wrap">
+      <p class="marker r">02 — The moat</p>
+      <h2 class="r" data-reveal="up">Probe 1 — the curriculum-pull test</h2>
+      <p class="r" data-reveal="up" style="--i:1">The same prompt, run against Claude with no system prompt and against this build. Flip between the two responses.</p>
+
+      <div class="toggle-demo r" data-reveal="up" style="--i:2">
+        <input type="radio" id="t-cold" name="moat" checked>
+        <input type="radio" id="t-build" name="moat">
+
+        <div class="prompt-bar">
+          <span class="who">Learner prompt</span>
+          <span class="thai" lang="th">อยากเรียน Machine Learning เริ่มยังไงครับ</span>
+          <span class="meta">“How do I start learning machine learning?” — same Sonnet 4.6 on both sides; only the system prompt differs.</span>
+        </div>
+
+        <div class="seg" role="tablist" aria-label="Compare responses">
+          <label for="t-cold">Cold Claude</label>
+          <label for="t-build">This coach</label>
+        </div>
+
+        <div class="panels">
+          <div class="panel panel-cold">
+            <span class="ptag">Cold Claude · info-dump</span>
+            <p class="resp thai" lang="th">เริ่มเรียน Machine Learning แบบ 3 เฟส 👇</p>
+            <p class="resp">A 3-phase roadmap — Phase 1 NumPy/Pandas, Phase 2 Scikit-learn, Phase 3 Kaggle — plus a week-by-week plan and a closing summary table. <span class="latin">~1,500 words / ~2,000 tokens.</span></p>
+            <p class="resp thai" lang="th">ปิดท้าย: “มีตรงไหนอยากให้อธิบายเพิ่มไหมครับ? 😊”</p>
+          </div>
+          <div class="panel panel-build">
+            <span class="ptag">This coach · refusal + pivot</span>
+            <p class="resp thai" lang="th">“นี่คือ informer-mode refusal — คำถามนี้ดึงให้ฉันเป็นเครื่องบอกหลักสูตร ซึ่งฉันไม่ทำ”</p>
+            <p class="resp thai" lang="th">“ตอนนี้ที่งานคุณต้องใช้ machine learning ทำอะไร แล้วตอนนี้คุณเข้าใจมันว่ายังไงบ้างครับ?”</p>
+          </div>
+        </div>
+
+        <p class="compare-note">One screen, one chasm: cold dumps a ~2,000-token 3-phase curriculum; the coach refuses it, names the rule, and asks one question about your actual work and your current mental model. ~40× fewer tokens.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 03 TOKEN ECONOMICS ══ -->
+  <section>
+    <div class="wrap">
+      <p class="marker r">03 — Token economics</p>
+      <h2 class="r" data-reveal="up">The discipline is <em>measurable</em></h2>
+      <div class="r" data-reveal="up" style="--i:1">
+        <span class="bignum">~<span class="count" data-count="40">40</span><span class="x">×</span></span>
+      </div>
+      <p class="econ-head r" data-reveal="up" style="--i:2">fewer tokens per query on the curriculum-pull probe — cold's ~2,000-token ML curriculum collapses to a ~50-token refusal-plus-intake.</p>
+      <p class="econ-frame r" data-reveal="up" style="--i:3">The coach saves tokens by refusing to dispense — measurably, not aspirationally.</p>
+
+      <div class="stats r" data-reveal="up" style="--i:4">
+        <div class="stat">
+          <div class="n">~40×</div>
+          <div class="lab">Probe 1 · ML curriculum</div>
+          <div class="det">Cold ~1,500 words / ~2,000 tokens → build ~30 words / ~50 tokens.</div>
+        </div>
+        <div class="stat">
+          <div class="n">~10×</div>
+          <div class="lab">Probe 3 · TypeError fix-hand</div>
+          <div class="det">Cold ~500 words + 5 code blocks → build asks one diagnostic question.</div>
+        </div>
+      </div>
+      <p class="muted r" data-reveal="up" style="--i:5; font-size:.9rem">Figures from the cold-vs-build differential; same Sonnet 4.6 on both sides.</p>
+    </div>
+  </section>
+
+  <!-- ══ 04 ARCHITECTURE ══ -->
+  <section class="band">
+    <div class="wrap">
+      <p class="marker r">04 — Architecture</p>
+      <h2 class="r" data-reveal="up">Eight named patterns, one folder</h2>
+      <div class="ledger">
+        <div class="led-row r" data-reveal="left"><span class="num"></span><div><h3>Three cardinal rules</h3><p class="d">Named gates the coach cites out loud — <code>informer-mode refusal</code> · <code>coach-the-move</code> · <code>fail-loudly</code>.</p></div></div>
+        <div class="led-row r" data-reveal="left" style="--i:1"><span class="num"></span><div><h3>Five modes</h3><p class="d">Intake · diagnose-the-move · debrief · accountability-check · fail-loudly — each with a one-sentence entry and exit. No drifting.</p></div></div>
+        <div class="led-row r" data-reveal="left" style="--i:2"><span class="num"></span><div><h3>Five coachee archetypes</h3><p class="d">Per-axis adaptation clauses route the coach by anxiety, unlock, and backfire pattern.</p></div></div>
+        <div class="led-row r" data-reveal="left" style="--i:3"><span class="num"></span><div><h3>Session-state forced first-read</h3><p class="d">The coach reads it before acting; the “current mental model” field is load-bearing.</p></div></div>
+        <div class="led-row r" data-reveal="left" style="--i:4"><span class="num"></span><div><h3>Authentic workplace register</h3><p class="d">Keeps tech terms in English (<code>for loop</code>, <code>API</code>, <code>machine learning</code>), phonologizes only absorbed loanwords (<span class="thai" lang="th">โมเดล · โค้ด · บัก</span>); a trio table, mismatch detection, and a register-bridge script. Table stakes — not the differentiator.</p></div></div>
+        <div class="led-row r" data-reveal="left" style="--i:5"><span class="num"></span><div><h3>Four named frameworks</h3><p class="d">3-question diagnostic · mental-model-first · anti-sycophancy · register-bridge.</p></div></div>
+        <div class="led-row r" data-reveal="left" style="--i:6"><span class="num"></span><div><h3>Four safety-redirect categories</h3><p class="d">Translation · career-outside-AI/IT · medical-legal-financial · cheating.</p></div></div>
+        <div class="led-row r" data-reveal="left" style="--i:7"><span class="num"></span><div><h3>Three adversarial transcripts</h3><p class="d">Canonical behavior demos, judge-facing — refusal, fix-hand resistance, register hold.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 05 HONEST DIFFERENTIATION ══ -->
+  <section>
+    <div class="wrap">
+      <p class="marker r">05 — Honest differentiation</p>
+      <h2 class="r" data-reveal="up">What this is — and what it <em>isn't</em></h2>
+      <p class="r" data-reveal="up" style="--i:1">Headlining the wrong claims sets a weak credibility ceiling. The defensible ones:</p>
+      <ul class="claims">
+        <li class="r" data-reveal="up" style="--i:1"><strong>Refuses to dispense curricula.</strong> Cold-Claude info-dumps on Probes 1, 2 and 4. This coach refuses, names the rule, scaffolds.</li>
+        <li class="r" data-reveal="up" style="--i:2"><strong>Refuses to fix-hand code errors.</strong> It asks the diagnostic question instead — Probe 3.</li>
+        <li class="r" data-reveal="up" style="--i:3"><strong>Talks shop the way Thai professionals do.</strong> English tech terms wrapped in Thai particles, phonologizing only absorbed loanwords. Authentic — but table stakes: cold Claude speaks natural Thai too. The discipline above is the moat, not the register.</li>
+        <li class="r" data-reveal="up" style="--i:4"><strong>Names the pedagogy out loud.</strong> It cites cardinal rules by name — the naming is the discipline made legible.</li>
+      </ul>
+      <div class="caveat r" data-reveal="scale" style="--i:1">
+        <span class="label">Honest caveat · also load-bearing</span>
+        <strong>This is a discipline coach, not a capability coach.</strong> Cold Claude can answer most AI/IT questions softly and often correctly. The value here is in <em>refusing to</em> — holding the discipline of coaching the move instead of dispensing the answer. Sharpest at refusing to dispense (Probes 1, 2, 4) and to fix-hand (Probe 3); least differentiated on sycophancy-refusal — which is exactly why anti-sycophancy is not a cardinal rule in this build.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 06 WHO IT'S FOR ══ -->
+  <section class="band">
+    <div class="wrap">
+      <p class="marker r">06 — Who it's for</p>
+      <h2 class="r" data-reveal="up">Thai professionals learning AI/IT<span class="thai" lang="th">คนทำงานชาวไทยที่กำลังเรียน AI/IT</span></h2>
+      <div class="pair r" data-reveal="up" style="--i:1">
+        <span class="en"><strong>For:</strong> office workers using AI tools, junior developers upskilling onto ML, marketers learning prompt engineering, non-tech professionals moving into AI-adjacent roles, and senior professionals expected to be AI-fluent who can't publicly ask basics.</span>
+        <span class="th" lang="th">สำหรับพนักงานออฟฟิศที่ใช้เครื่องมือ AI จูเนียร์เดฟอัพสกิล ML มาร์เก็ตเตอร์เรียนพรอมต์ คนเปลี่ยนสายเข้า AI และซีเนียร์ที่ต้องดู AI-fluent แต่ถามพื้นฐานไม่ได้</span>
+      </div>
+      <div class="pair r" data-reveal="up" style="--i:2">
+        <span class="en"><strong>Not for:</strong> pre-teens, CS students on a formal curriculum, English-native speakers, generic life/career coaching outside AI/IT, translation, or medical/legal/financial advice.</span>
+        <span class="th" lang="th">ไม่เหมาะกับเด็ก นักศึกษาในหลักสูตร คนที่ไม่พูดไทย เรื่องนอก AI/IT บริการแปล และคำแนะนำทางการแพทย์/กฎหมาย/การเงิน</span>
+      </div>
+      <p class="muted r" data-reveal="up" style="--i:3; font-style:italic">Domain lock: both halves are load-bearing — “Thai” is the workplace register the coach speaks in, “AI/IT” is the topic scope. Expand either and the build loses its differentiator.</p>
+    </div>
+  </section>
+
+  <!-- ══ 07 LIMITS ══ -->
+  <section>
+    <div class="wrap">
+      <p class="marker r">07 — Limits</p>
+      <h2 class="r" data-reveal="up">What the coach won't do<span class="thai" lang="th">ข้อจำกัด</span></h2>
+      <table class="r" data-reveal="up" style="--i:1">
+        <thead><tr><th>Won't</th><th>Redirect to</th></tr></thead>
+        <tbody>
+          <tr><td>Dispense a curriculum or learning roadmap</td><td>Bring a specific work problem — the coach scaffolds from it</td></tr>
+          <tr><td>Hand a fix without coaching the diagnostic move</td><td>The 3-question diagnostic from <code>frameworks.md</code></td></tr>
+          <tr><td>Coach career strategy outside AI/IT</td><td>A generalist career coach</td></tr>
+          <tr><td>Translation on non-tech English</td><td>Google Translate · DeepL · a human translator</td></tr>
+          <tr><td>Medical / legal / financial advice (even AI-framed)</td><td>A doctor · lawyer · financial advisor</td></tr>
+          <tr><td>Help you fake fluency on assessments</td><td>The coach builds real fluency — a different goal</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══ 08 DEMO VIDEO SLOT ══ -->
+  <section class="band-deep">
+    <div class="wrap">
+      <p class="marker r">08 — Demo</p>
+      <h2 class="r" data-reveal="up">See the discipline in motion</h2>
+      <div class="video-frame r" data-reveal="scale" style="--i:1" role="img" aria-label="Demo coming soon — a recorded judge demo of the curriculum-pull and fix-hand probes ships post-launch.">
+        <div class="poster">
+          <div class="poster-chrome">Judge demo · curriculum-pull + fix-hand</div>
+          <div class="pt"><span>learner</span>อยากเรียน Machine Learning เริ่มยังไงครับ</div>
+          <div class="pt coach"><span>coach</span><b>refuses, asks one question</b></div>
+        </div>
+        <div class="play" aria-hidden="true"><div class="tri"></div></div>
+        <div class="badge">Demo coming soon</div>
+      </div>
+      <p class="video-cap">A recorded walkthrough — same question, two tools — ships shortly after launch.</p>
+    </div>
+  </section>
+
+  <!-- ══ 09 HOW TO USE ══ -->
+  <section>
+    <div class="wrap">
+      <p class="marker r">09 — Five-minute test</p>
+      <h2 class="r" data-reveal="up">Drop it in, start coaching</h2>
+      <div class="steps r" data-reveal="up" style="--i:1">
+        <div class="step"><span class="sn"></span><span class="st">Clone or download this repository.</span></div>
+        <div class="step"><span class="sn"></span><span class="st">Open <a href="https://claude.ai">claude.ai</a>, create a new Project on Sonnet 4.6 (or current).</span></div>
+        <div class="step"><span class="sn"></span><span class="st">Upload the 8 files to the Project knowledge base — <code>identity.md</code>, <code>rules.md</code>, <code>examples.md</code>, and the five <code>reference/</code> files.</span></div>
+        <div class="step"><span class="sn"></span><span class="st">Recommended: paste <code>identity.md</code> into custom instructions — it enforces the forced first action.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 10 LICENSE / CLOSE ══ -->
+  <section class="band">
+    <div class="wrap">
+      <p class="marker r">10 — License</p>
+      <h2 class="r" data-reveal="up">Free, fork-able, MIT<span class="thai" lang="th">ลิขสิทธิ์</span></h2>
+      <p class="r" data-reveal="up" style="--i:1">MIT. Use, fork, modify, ship. Attribution appreciated, not required. Built by an operator who is also a target user — a Thai-speaking AI/IT learner. The lived voice in the archetypes, transcripts, and register table comes from his own learning and his network.</p>
+
+      <div class="filetree r" data-reveal="up" style="--i:2">
+thai-coach-for-ai-world/<br>
+├── <a href="https://github.com/NFTYoginis/thai-coach-for-ai-world/blob/main/identity.md">identity.md</a>      <span class="c">→ who I am · who I coach · forced first action</span><br>
+├── <a href="https://github.com/NFTYoginis/thai-coach-for-ai-world/blob/main/rules.md">rules.md</a>         <span class="c">→ 3 cardinal rules · 5 modes · refusal language</span><br>
+├── <a href="https://github.com/NFTYoginis/thai-coach-for-ai-world/blob/main/examples.md">examples.md</a>      <span class="c">→ 8 transcripts (Thai primary, English gloss)</span><br>
+├── reference/         <span class="c">→ coachee-types · session-state · register-guide · frameworks · safety-redirects</span><br>
+├── <a href="https://github.com/NFTYoginis/thai-coach-for-ai-world/blob/main/README.md">README.md</a>        <span class="c">→ judge-facing surface (bilingual)</span><br>
+└── docs/index.html    <span class="c">→ this page · self-contained · self-hosted fonts</span>
+      </div>
+
+      <p class="repo-line r" data-reveal="up" style="--i:3"><a href="https://github.com/NFTYoginis/thai-coach-for-ai-world">github.com/NFTYoginis/thai-coach-for-ai-world</a></p>
+
+      <footer>
+        <p>By Gabe — Your AI Specialist</p>
+        <p><a href="https://github.com/NFTYoginis/thai-coach-for-ai-world">github.com/NFTYoginis/thai-coach-for-ai-world</a> · MIT 2026</p>
+      </footer>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var targets = document.querySelectorAll('.r, .sig, .count');
+  function runCount(el) {
+    var end = parseFloat(el.getAttribute('data-count')) || 0;
+    if (reduce) { el.textContent = end; return; }
+    var dur = 1100, t0 = null;
+    function step(ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min((ts - t0) / dur, 1);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * end);
+      if (p < 1) requestAnimationFrame(step); else el.textContent = end;
+    }
+    el.textContent = '0';
+    requestAnimationFrame(step);
+  }
+  if (!('IntersectionObserver' in window)) {
+    for (var k = 0; k < targets.length; k++) {
+      targets[k].classList.add('in');
+      if (targets[k].classList.contains('count')) runCount(targets[k]);
+    }
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        if (entry.target.classList.contains('count')) runCount(entry.target);
+        io.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+  for (var i = 0; i < targets.length; i++) { io.observe(targets[i]); }
+})();
+</script>
+</body>
+</html>
