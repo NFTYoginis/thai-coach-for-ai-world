@@ -127,12 +127,68 @@
   html.js .r[data-reveal="scale"] { transform: scale(.93); }
   html.js .r.in { opacity: 1; transform: none; }
 
-  /* ── HERO ── */
-  .hero { padding-top: 4.5rem; padding-bottom: 2.5rem; }
+  /* ════ Imagery layer — B's FORM stack, re-skinned to A's notebook palette ════ */
+  img { max-width: 100%; display: block; }
+  .wrap.wide { max-width: 1080px; }
   .kicker { font-family: var(--mono); font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 0 0 1.4rem; }
   h1 { overflow-wrap: break-word; font-family: var(--serif); font-weight: 420; font-size: clamp(2.3rem, 6vw, 4rem); line-height: 1.04; letter-spacing: -.02em; margin: 0; }
   h1 .thai { display: block; font-size: .42em; font-weight: 400; color: var(--muted); margin-top: .6rem; letter-spacing: 0; }
-  .hero .lede { margin-top: 1.6rem; max-width: 40ch; }
+
+  /* ── HERO — full-bleed lifestyle photo + overlapping card (bright/high-key, never moody) ── */
+  header.hero-photo { position: relative; padding: 0; }
+  .hero-photo .hero-media { position: relative; width: 100%; }
+  .hero-photo .hero-media img { width: 100%; height: clamp(330px, 54vh, 600px); object-fit: cover; object-position: 50% 36%; }
+  .hero-photo .hero-media::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(28,26,23,0.14) 0%, rgba(28,26,23,0) 22%),
+      linear-gradient(0deg, var(--paper) 1.5%, rgba(244,239,228,0) 34%);
+  }
+  .hero-card {
+    position: relative; z-index: 2; margin: -120px auto 0; background: var(--paper);
+    border: 1px solid var(--rule); border-radius: 14px;
+    box-shadow: 0 26px 64px -38px var(--shadow-lg); padding: 2.7rem 2.9rem 2.9rem; max-width: 760px;
+  }
+  .hero-card .kicker { margin: 0 0 1.1rem; }
+  .hero-card h1 { font-size: clamp(2.1rem, 5.4vw, 3.5rem); }
+  .hero-card h1 .thai { font-size: .4em; }
+  .hero-card .lede { margin-top: 1.2rem; max-width: none; }
+  .hero-btns { margin: 1.8rem 0 0; display: flex; flex-wrap: wrap; gap: .8rem; }
+  .hero-btns a { font-family: var(--mono); font-size: .82rem; letter-spacing: .01em; padding: .78rem 1.3rem; border-radius: 7px; border-bottom: 0; transition: transform .2s ease, background .2s ease; }
+  .hero-btns .primary { background: var(--accent); color: #fff; }
+  .hero-btns .primary:hover { background: var(--accent-deep); transform: translateY(-1px); }
+  .hero-btns .ghost { border: 1px solid var(--accent); color: var(--accent-deep); }
+  .hero-btns .ghost:hover { background: var(--accent-bg); }
+  @media (max-width: 760px) { .hero-card { margin: -84px 1.1rem 0; padding: 1.9rem 1.5rem 2.1rem; } }
+
+  /* ── Full-bleed mood band with display-serif pull-quote ── */
+  section.imgband { padding: 0; }
+  section + section.imgband, section.imgband + section { border-top: 0; }
+  .imgband img { width: 100%; height: clamp(280px, 42vh, 460px); object-fit: cover; object-position: 50% 42%; }
+  .imgband .band-quote { position: absolute; inset: 0; display: flex; align-items: flex-end;
+    background: linear-gradient(90deg, rgba(28,26,23,0.62) 0%, rgba(28,26,23,0.18) 50%, rgba(28,26,23,0) 78%); }
+  .imgband { position: relative; }
+  .imgband .band-quote .wrap { width: 100%; padding-bottom: 2.4rem; }
+  .imgband blockquote { margin: 0; max-width: 28ch; color: #fbf4e9; font-family: var(--serif); font-style: italic;
+    font-weight: 460; font-size: clamp(1.35rem, 3vw, 2rem); line-height: 1.3; text-shadow: 0 1px 18px rgba(0,0,0,.4); }
+  .imgband cite { display: block; margin-top: .8rem; font-family: var(--mono); font-style: normal;
+    font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(251,244,233,.82); }
+
+  /* ── "Settings" triptych ── */
+  .trip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.7rem; }
+  .trip figure { margin: 0; }
+  .trip img { width: 100%; height: clamp(220px, 24vw, 300px); object-fit: cover; border-radius: 12px;
+    border: 1px solid var(--rule); box-shadow: 0 16px 44px -40px var(--shadow-lg); }
+  .trip figcaption { font-family: var(--mono); font-size: .7rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); margin: .7rem .2rem 0; }
+  @media (max-width: 720px) { .trip { grid-template-columns: 1fr; } .trip img { height: clamp(220px, 56vw, 300px); } }
+
+  /* ── Editorial split — focused portrait beside the honest caveat ── */
+  .split { display: grid; grid-template-columns: 0.86fr 1.14fr; gap: 2.2rem; align-items: center; margin-top: 1.8rem; }
+  .split .pic img { width: 100%; height: 100%; max-height: 440px; object-fit: cover; border-radius: 14px;
+    border: 1px solid var(--rule); box-shadow: 0 22px 56px -42px var(--shadow-lg); }
+  .split .caveat { margin-top: 0; }
+  @media (max-width: 760px) { .split { grid-template-columns: 1fr; gap: 1.5rem; } .split .pic img { max-height: 300px; } }
 
   /* ── SIGNATURE moat moment ── */
   .sig { padding: 6.5rem 0 6rem; text-align: center; overflow: hidden; }
@@ -281,20 +337,26 @@
 <a class="skip" href="#main">Skip to content</a>
 <main id="main">
 
-  <!-- ══ HERO ══ -->
-  <section class="hero">
-    <div class="wrap">
-      <p class="kicker r">Folder-based AI specialist · MIT-licensed · Skool W5 portfolio entry</p>
-      <h1 class="r" data-reveal="up" style="--i:1">
-        Thai Coach for AI World
-        <span class="thai" lang="th">โค้ชภาษาไทยสำหรับโลก AI</span>
-      </h1>
-      <p class="lede r" data-reveal="up" style="--i:2">
-        An AI coach for Thai professionals learning AI/IT topics. It refuses to dispense curricula and refuses to hand fixes — it coaches the diagnostic move instead. Bilingual: it talks shop the way Thai professionals actually do.
+  <!-- ══ HERO — full-bleed lifestyle photo + overlapping card ══ -->
+  <header class="hero-photo">
+    <div class="hero-media">
+      <!-- Lifestyle hero — AI-generated to art direction (seedream-4-5): a Thai AI/IT learner working a
+           problem out by hand, not collecting an answer. Bright, high-key, text-free. Sources: docs/img/_candidates/. -->
+      <img src="assets/hero.jpg" width="1600" height="1200"
+           alt="A young Thai developer seen from behind at a sunlit desk, pausing in thought with a pen over an open notebook of hand-drawn diagrams beside a laptop in a bright Bangkok workspace.">
+    </div>
+    <div class="hero-card r" data-reveal="up">
+      <p class="kicker">Folder-based AI specialist · MIT-licensed · Skool W5 portfolio entry</p>
+      <h1>Thai Coach for AI World<span class="thai" lang="th">โค้ชภาษาไทยสำหรับโลก AI</span></h1>
+      <p class="lede">An AI coach for Thai professionals learning AI/IT topics. It refuses to dispense curricula and refuses to hand fixes — it coaches the diagnostic move instead. Bilingual: it talks shop the way Thai professionals actually do.
         <span class="thai" lang="th">โค้ช AI สำหรับคนทำงานชาวไทยที่กำลังเรียน AI/IT ปฏิเสธการบอกหลักสูตร ปฏิเสธการส่งคำตอบโดยไม่ผ่านการวินิจฉัย แล้วโค้ชให้คิดเองแทน พูดสองภาษาแบบที่คนทำงานใช้จริง</span>
       </p>
+      <p class="hero-btns">
+        <a class="primary" href="#five-min">Try the 5-minute test</a>
+        <a class="ghost" href="https://github.com/NFTYoginis/thai-coach-for-ai-world">Read the folder on GitHub</a>
+      </p>
     </div>
-  </section>
+  </header>
 
   <!-- ══ SIGNATURE — the discipline chasm ══ -->
   <section class="band-deep">
@@ -324,6 +386,18 @@
         <p class="r dim" data-reveal="up" style="--i:2">It's genuinely useful. It's also the wrong shape for learning.</p>
         <p class="r" data-reveal="up" style="--i:3">You didn't build the move. You didn't narrow the question. You collected a roadmap you won't follow and a fix you can't reproduce.</p>
         <p class="r" data-reveal="up" style="--i:4">A coach refuses the dump and hands you the move instead. <strong>That refusal is the whole product.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ mood band — the refusal is the product ══ -->
+  <section class="imgband">
+    <img src="assets/band-1.jpg" width="1500" height="1000"
+         alt="A young Thai developer pausing in disciplined thought at a sunlit minimal desk by a window in a bright Bangkok workspace.">
+    <div class="band-quote">
+      <div class="wrap">
+        <blockquote>The refusal is the product. A coach hands you the move — not the answer.</blockquote>
+        <cite>— the discipline, in one line</cite>
       </div>
     </div>
   </section>
@@ -414,6 +488,20 @@
     </div>
   </section>
 
+  <!-- ══ settings triptych — wherever the discipline runs ══ -->
+  <section>
+    <div class="wrap wide">
+      <p class="marker r">Where it runs</p>
+      <h2 class="r" data-reveal="up">Wherever you do the work</h2>
+      <p class="r" data-reveal="up" style="--i:1">No app, no dashboard — the coach runs as a chat inside your own Claude Project. The discipline goes where you do: the desk at home, the co-working floor, a café before the day starts.</p>
+      <div class="trip r" data-reveal="up" style="--i:2">
+        <figure><img src="assets/set-home.jpg" width="1120" height="840" alt="A Thai developer working with focused concentration at a clean home desk by a bright window in Bangkok."><figcaption>Home desk · deep work</figcaption></figure>
+        <figure><img src="assets/set-cowork.jpg" width="1120" height="840" alt="A Thai professional heads-down at a laptop in a bright, airy co-working space in Bangkok."><figcaption>Co-working · heads-down</figcaption></figure>
+        <figure><img src="assets/set-cafe.jpg" width="1120" height="840" alt="A Thai developer working over coffee at a bright balcony café table in the morning."><figcaption>Café · before the day</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
   <!-- ══ 05 HONEST DIFFERENTIATION ══ -->
   <section>
     <div class="wrap">
@@ -426,9 +514,15 @@
         <li class="r" data-reveal="up" style="--i:3"><strong>Talks shop the way Thai professionals do.</strong> English tech terms wrapped in Thai particles, phonologizing only absorbed loanwords. Authentic — but table stakes: cold Claude speaks natural Thai too. The discipline above is the moat, not the register.</li>
         <li class="r" data-reveal="up" style="--i:4"><strong>Names the pedagogy out loud.</strong> It cites cardinal rules by name — the naming is the discipline made legible.</li>
       </ul>
-      <div class="caveat r" data-reveal="scale" style="--i:1">
-        <span class="label">Honest caveat · also load-bearing</span>
-        <strong>This is a discipline coach, not a capability coach.</strong> Cold Claude can answer most AI/IT questions softly and often correctly. The value here is in <em>refusing to</em> — holding the discipline of coaching the move instead of dispensing the answer. Sharpest at refusing to dispense (Probes 1, 2, 4) and to fix-hand (Probe 3); least differentiated on sycophancy-refusal — which is exactly why anti-sycophancy is not a cardinal rule in this build.
+      <div class="split">
+        <div class="pic r" data-reveal="left">
+          <img src="assets/split.jpg" width="1200" height="900"
+               alt="A young Thai developer in focused side profile, thinking deliberately through a problem at a sunlit desk in a bright Bangkok workspace.">
+        </div>
+        <div class="caveat r" data-reveal="up" style="--i:1">
+          <span class="label">Honest caveat · also load-bearing</span>
+          <strong>This is a discipline coach, not a capability coach.</strong> Cold Claude can answer most AI/IT questions softly and often correctly. The value here is in <em>refusing to</em> — holding the discipline of coaching the move instead of dispensing the answer. Sharpest at refusing to dispense (Probes 1, 2, 4) and to fix-hand (Probe 3); least differentiated on sycophancy-refusal — which is exactly why anti-sycophancy is not a cardinal rule in this build.
+        </div>
       </div>
     </div>
   </section>
@@ -474,21 +568,30 @@
     <div class="wrap">
       <p class="marker r">08 — Demo</p>
       <h2 class="r" data-reveal="up">See the discipline in motion</h2>
-      <div class="video-frame r" data-reveal="scale" style="--i:1" role="img" aria-label="Demo coming soon — a recorded judge demo of the curriculum-pull and fix-hand probes ships post-launch.">
-        <div class="poster">
-          <div class="poster-chrome">Judge demo · curriculum-pull + fix-hand</div>
-          <div class="pt"><span>learner</span>อยากเรียน Machine Learning เริ่มยังไงครับ</div>
-          <div class="pt coach"><span>coach</span><b>refuses, asks one question</b></div>
-        </div>
-        <div class="play" aria-hidden="true"><div class="tri"></div></div>
-        <div class="badge">Demo coming soon</div>
+      <div class="video-frame r" data-reveal="scale" style="--i:1">
+        <video class="demo-video" controls preload="metadata" poster="demo-poster.png" aria-label="Judge demo — three coaching disciplines run against a plain Claude: curriculum-refusal, coach-the-move, and session-state continuity. Thai coaching dialogue with English callouts.">
+          <source src="demo.mp4" type="video/mp4" />
+          Your browser does not support the video tag. <a href="demo.mp4">Download the demo (MP4)</a>.
+        </video>
       </div>
-      <p class="video-cap">A recorded walkthrough — same question, two tools — ships shortly after launch.</p>
+      <p class="video-cap">Same question, two tools. The coach refuses to inform, coaches the move, and holds the open thread — the discipline, not a register trick.</p>
+    </div>
+  </section>
+
+  <!-- ══ closing mood band — session continuity ══ -->
+  <section class="imgband">
+    <img src="assets/band-2.jpg" width="1500" height="1000"
+         alt="A tidy, sunlit desk at the close of a work session — a closed laptop, a coffee cup and a small plant by the window, the Thai developer just visible at the edge.">
+    <div class="band-quote">
+      <div class="wrap">
+        <blockquote>It holds the open thread. Tomorrow you pick up where you left off — not from zero.</blockquote>
+        <cite>— session continuity</cite>
+      </div>
     </div>
   </section>
 
   <!-- ══ 09 HOW TO USE ══ -->
-  <section>
+  <section id="five-min">
     <div class="wrap">
       <p class="marker r">09 — Five-minute test</p>
       <h2 class="r" data-reveal="up">Drop it in, start coaching</h2>
